@@ -8,6 +8,7 @@ import { T3LineChart } from "../components/charts/t3-line-chart";
 import { T4LineChart } from "../components/charts/T4LineChart";
 import { T5LineChart } from "../components/charts/t5-line-chart";
 import { T6LineChart } from "../components/charts/t6-line-chart";
+import { TBarChart } from "../components/charts/t-bar-chart";
 
 export default function Charts() {
   const [data] = useState([
@@ -7470,7 +7471,48 @@ export default function Charts() {
       ],
     },
   });
-
+  const [tBarData] = useState([
+    {
+      Country: "United States",
+      Value: 12394,
+    },
+    {
+      Country: "Russia",
+      Value: 6148,
+    },
+    {
+      Country: "Germany (FRG)",
+      Value: 1653,
+    },
+    {
+      Country: "France",
+      Value: 2162,
+    },
+    {
+      Country: "United Kingdom",
+      Value: 1214,
+    },
+    {
+      Country: "China",
+      Value: 1131,
+    },
+    {
+      Country: "Spain",
+      Value: 814,
+    },
+    {
+      Country: "Netherlands",
+      Value: 1167,
+    },
+    {
+      Country: "Italy",
+      Value: 660,
+    },
+    {
+      Country: "Israel",
+      Value: 1263,
+    },
+  ]);
   return (
     <div>
       <h2>Here we will test for d3js Basics charts</h2>
@@ -7481,7 +7523,8 @@ export default function Charts() {
       {/* <T3LineChart data={twoLineData} /> */}
       {/* <T4LineChart data={threeLineDate}/> */}
       {/* <T5LineChart data={threeLineDate} /> */}
-      <T6LineChart data={threeLineDate} />
+      {/* <T6LineChart data={threeLineDate} /> */}
+      <TBarChart data={tBarData} />
     </div>
   );
 }
