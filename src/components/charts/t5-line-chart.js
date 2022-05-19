@@ -81,11 +81,11 @@ export const T5LineChart = ({ data, height = 350 }) => {
             .attr("d", valueLine1(newy1Data))
             .style('stroke-width', 2)
 
-        // main.append("path")
-        //     .style("stroke", "green")
-        //     .style("fill", "none")
-        //     .attr("d", valueLine2(newy2Data))
-        //     .style('stroke-width', 2)
+        main.append("path")
+            .style("stroke", "green")
+            .style("fill", "none")
+            .attr("d", valueLine2(newy2Data))
+            .style('stroke-width', 2)
 
     }, [data.length]);
     return (
