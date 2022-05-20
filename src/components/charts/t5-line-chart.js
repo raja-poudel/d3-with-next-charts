@@ -37,7 +37,7 @@ export const T5LineChart = ({ data, height = 350 }) => {
 
         let xAxis = d3.axisBottom(x),
             yAxisLeft = d3.axisLeft(y0).ticks(5),
-            y1AxisLeft = d3.axisLeft(y1).ticks(5),
+            y1AxisLeft = d3.axisLeft(y1).ticks(5).tickValues([]),
             yAxisRight = d3.axisRight(y2).ticks(5);
         main.append("g")
             .attr("transform", `translate(0, ${height})`)
@@ -68,32 +68,72 @@ export const T5LineChart = ({ data, height = 350 }) => {
             .curve(d3.curveCardinal);
 
 
-        main.append("path")
+        let g0 = main.append("g");
+
+
+        g0.append("path")
+            .data([newy0Data])
             .style('stroke', "orange")
             .style("fill", "none")
             .style("stroke-width", 2)
-            .attr("d", valueLine0(newy0Data))
+            .attr("d", valueLine0)
 
+        g0.selectAll("circle")
+            .data(newy0Data)
+            .enter()
+            .append("circle")
+            .attr("fill", "orange")
+            .attr("r", 3.5)
+            .attr("cx", function (d) {
+                return x(d.x)
+            })
+            .attr("cy", function (d) {
+                return y0(d.y)
+            })
+        let g1 = main.append("g");
 
-        main.append("path")
+        g1.append("path")
             .style("stroke", "red")
             .style("fill", "none")
             .attr("d", valueLine1(newy1Data))
             .style('stroke-width', 2)
 
-        // main.append("path")
-        //     .style("stroke", "green")
-        //     .style("fill", "none")
-        //     .attr("d", valueLine2(newy2Data))
-        //     .style('stroke-width', 2)
+        g1.selectAll("circle")
+            .data(newy1Data)
+            .enter()
+            .append("circle")
+            .attr("fill", "red")
+            .attr("r", 3.5)
+            .attr("cx", function (d) {
+                return x(d.x);
+            })
+            .attr("cy", function(d) {
+                return y1(d.y)
+            })
 
+        let g2 = main.append("g");
+
+        g2.append("path")
+            .style("stroke", "green")
+            .style("fill", "none")
+            .attr("d", valueLine2(newy2Data))
+            .style('stroke-width', 2)
+        g2.selectAll("circle")
+            .data(newy2Data)
+            .enter()
+            .append("circle")
+            .attr("fill", "green")
+            .attr("r", 3.5)
+            .attr("cx", function(d) {
+                return x(d.x);
+            })
+            .attr("cy", function(d) {
+                return y2(d.y)
+            })
     }, [data.length]);
     return (
         <>
             <svg ref={svgRef} viewBox={`0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`} style={{
-                backgroundColor: 'lightgrey',
-                border: ".5px solid grey",
-                boxShadow: "0.1px 0.1px .5px .8px grey",
                 borderRadius: 4,
                 margin: 20
             }} />
