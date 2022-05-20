@@ -104,7 +104,7 @@ export default function Charts() {
       {/* <T7LineChart series={chartSeries} options={chartOptions} /> */}
       {/* <T8PieChart  data={pieData}/> */}
       {/* <T9BarChart data={t9Data} /> */}
-      <T10BarChart />
+      <T10BarChart data={t9Data}/>
     </div>
   )
 }

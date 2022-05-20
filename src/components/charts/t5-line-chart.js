@@ -98,7 +98,6 @@ export const T5LineChart = ({ data, height = 350 }) => {
             .attr("d", valueLine1(newy1Data))
             .style('stroke-width', 2)
 
-<<<<<<< HEAD
         g1.selectAll("circle")
             .data(newy1Data)
             .enter()
@@ -113,13 +112,6 @@ export const T5LineChart = ({ data, height = 350 }) => {
             })
 
         let g2 = main.append("g");
-=======
-        main.append("path")
-            .style("stroke", "green")
-            .style("fill", "none")
-            .attr("d", valueLine2(newy2Data))
-            .style('stroke-width', 2)
->>>>>>> 1620b1177fa0271a828cb301c4992d60413e01e0
 
         g2.append("path")
             .style("stroke", "green")
