@@ -9,13 +9,10 @@ export const Chart2 = ({ height = 350, options, series }) => {
     toolTitleRef = useRef(),
     toolDescRef = useRef();
 
-  let tooltip = d3.select(toolRef.current);
   let margin = { left: 40, top: 40, right: 40, bottom: 40 },
     width = 800,
     { categories } = options.xaxis,
     { colors } = options;
-  console.log(options);
-  console.log(series);
 
   const formattedData = series.map((serie, i) => {
     return {
@@ -25,7 +22,7 @@ export const Chart2 = ({ height = 350, options, series }) => {
       }),
     };
   });
-  console.log(formattedData);
+
   const xScale = d3.scalePoint().domain(categories).range([0, width]);
 
   const yScale = d3
@@ -69,7 +66,7 @@ export const Chart2 = ({ height = 350, options, series }) => {
   }, []);
 
   function handleMouseOver(e, title, name, value) {
-    tooltip
+    d3.select(toolRef.current)
       .style("visibility", "visible")
       .style("left", e.pageX + 10 + "px")
       .style("top", e.pageY + 10 + "px");
@@ -79,13 +76,13 @@ export const Chart2 = ({ height = 350, options, series }) => {
   }
 
   function handleMouseMove(e, d) {
-    tooltip
+    d3.select(toolRef.current)
       .style("left", e.pageX + 10 + "px")
       .style("top", e.pageY + 10 + "px");
   }
 
   function handleMouseOut(e, d) {
-    tooltip.style("visibility", "hidden");
+    d3.select(toolRef.current).style("visibility", "hidden");
     d3.select(e.currentTarget).style("r", 4.5);
   }
   return (

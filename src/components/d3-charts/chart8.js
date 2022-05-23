@@ -19,7 +19,7 @@ export const Chart8 = ({ height = 350, options, series }) => {
     .outerRadius(radius);
 
   function handleMouseOver(e, name, value, color) {
-    tooltip
+    d3.select(toolRef.current)
       .style("visibility", "visible")
       .style("left", e.pageX + 10 + "px")
       .style("top", e.pageY + 10 + "px");
@@ -30,13 +30,13 @@ export const Chart8 = ({ height = 350, options, series }) => {
   }
 
   function handleMouseMove(e, d) {
-    tooltip
+    d3.select(toolRef.current)
       .style("left", e.pageX + 10 + "px")
       .style("top", e.pageY + 10 + "px");
   }
 
   function handleMouseOut(e, d) {
-    tooltip.style("visibility", "hidden");
+    d3.select(toolRef.current).style("visibility", "hidden");
     d3.select(e.currentTarget).style("opacity", 1);
   }
   console.log(options);

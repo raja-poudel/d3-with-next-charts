@@ -3,9 +3,9 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import ScatterPlot from "../components/scatter-chart";
-// import { CChart1 } from "../components/chart-components/chart1";
+import { CChart1 } from "../components/chart-components/chart1";
 import { CChart2 } from "../components/chart-components/chart2";
-// import { CChart3 } from "../components/chart-components/chart3";
+import { CChart3 } from "../components/chart-components/chart3";
 import { CChart4 } from "../components/chart-components/chart4";
 import { CChart6 } from "../components/chart-components/chart6";
 import { CChart7 } from "../components/chart-components/chart7";
@@ -14,6 +14,7 @@ import { CChart9 } from "../components/chart-components/chart9";
 import { CChart10 } from "../components/chart-components/chart10";
 import { CChart11 } from "../components/chart-components/chart11";
 import { CChart12 } from "../components/chart-components/chart12";
+import { StackedBarChart } from "../components/stackedbar";
 
 export default function Home() {
   return (
@@ -24,17 +25,18 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        {/* <CChart1 /> */}
-        {/* <CChart2 /> */}
-        {/* <CChart3 /> */}
-        {/* <CChart4 /> */}
-        {/* <CChart6 /> */}
-        {/* <CChart7 /> */}
-        {/* <CChart8 /> */}
-        {/* <CChart9 /> */}
-        {/* <CChart10 /> */}
-        {/* <CChart11 /> */}
+        {/* <CChart1 />
+        <CChart2 />
+        <CChart3 />
+        <CChart4 />
+        <CChart6 />
+        <CChart7 />
+        <CChart8 />
+        <CChart9 />
+        <CChart10 />
+        <CChart11 /> */}
         <CChart12 />
+        {/* <StackedBarChart /> */}
       </main>
     </div>
   );

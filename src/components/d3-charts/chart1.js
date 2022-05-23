@@ -1,22 +1,22 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 
 export const Chart1 = ({ height = 350, options, series }) => {
+  // let [tooltip, setTooltip] = useState(false);
+
   let bottomAxis = useRef(),
     leftAxis = useRef(),
     toolRef = useRef(),
     toolTitleRef = useRef(),
     toolDescRef = useRef();
 
-  let tooltip = d3.select(toolRef.current);
   let margin = { left: 30, top: 40, right: 30, bottom: 40 },
     width = 800,
     { categories } = options.xaxis,
     { colors } = options;
-  console.log(options);
-  console.log(series);
+
   let yData = [].concat(...series.map((d, i) => d.data.map((value) => value)));
-  console.log(yData);
+
   const xScale = d3
     .scaleBand()
     .domain(categories)
@@ -41,7 +41,7 @@ export const Chart1 = ({ height = 350, options, series }) => {
   }, []);
 
   function handleMouseOver(e, title, name, value) {
-    tooltip
+    d3.select(toolRef.current)
       .style("visibility", "visible")
       .style("left", e.pageX + 10 + "px")
       .style("top", e.pageY + 10 + "px");
@@ -50,14 +50,18 @@ export const Chart1 = ({ height = 350, options, series }) => {
   }
 
   function handleMouseMove(e, d) {
-    tooltip
+    d3.select(toolRef.current)
       .style("left", e.pageX + 10 + "px")
       .style("top", e.pageY + 10 + "px");
   }
 
   function handleMouseOut(e, d) {
-    tooltip.style("visibility", "hidden");
+    d3.select(toolRef.current).style("visibility", "hidden");
   }
+
+  console.log(options);
+  console.log(series);
+
   return (
     <>
       <svg

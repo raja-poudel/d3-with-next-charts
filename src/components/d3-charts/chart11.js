@@ -37,7 +37,7 @@ export const Chart11 = ({ height = 350, series, options }) => {
   function handleMouseOver(e, title, name, value) {
     d3.select(e.currentTarget).style("opacity", 0.6);
 
-    tooltip
+    d3.select(toolRef.current)
       .style("visibility", "visible")
       .style("left", e.pageX + 10 + "px")
       .style("top", e.pageY + 10 + "px");
@@ -46,13 +46,13 @@ export const Chart11 = ({ height = 350, series, options }) => {
   }
 
   function handleMouseMove(e) {
-    tooltip
+    d3.select(toolRef.current)
       .style("left", e.pageX + 10 + "px")
       .style("top", e.pageY + 10 + "px");
   }
   function handleMouseOut(e) {
     d3.select(e.currentTarget).style("opacity", 1);
-    tooltip.style("visibility", "hidden");
+    d3.select(toolRef.current).style("visibility", "hidden");
     d3.select(toolTitleRef.current).text("");
     d3.select(toolDescRef.current).text("");
   }

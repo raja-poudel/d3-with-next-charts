@@ -1,5 +1,32 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
+
+let data1 = [
+  {
+    group: "banana",
+    Nitrogen: 12,
+    normal: 1,
+    stress: 13,
+  },
+  {
+    group: "poacee",
+    Nitrogen: 6,
+    normal: 6,
+    stress: 33,
+  },
+  {
+    group: "sorgho",
+    Nitrogen: 11,
+    normal: 28,
+    stress: 12,
+  },
+  {
+    group: "triticum",
+    Nitrogen: 19,
+    normal: 6,
+    stress: 1,
+  },
+];
 
 export const Chart12 = ({ height = 350, options, series }) => {
   let bottomAxis = useRef(),
@@ -7,36 +34,31 @@ export const Chart12 = ({ height = 350, options, series }) => {
     toolRef = useRef(),
     toolTitleRef = useRef(),
     toolDescRef = useRef();
-
-  let tooltip = d3.select(toolRef.current);
+  let [data] = useState(data1);
   let margin = { left: 30, top: 40, right: 30, bottom: 40 },
     width = 800,
-    { categories } = options.xaxis,
-    { colors } = options;
+    { categories } = options.xaxis;
 
-  let yData = [].concat(
-    ...series.map((d, i) => {
-      let data = 0;
-      let values = d.data.map((value) => {
-        data = data + value;
-      });
-      return data;
-    })
-  );
+  let groups = data.map((d) => d.group);
+  let subgroups = ["Nitrogen", "normal", "stress"];
 
-  const xScale = d3
-    .scaleBand()
-    .domain(categories)
-    .range([0, width])
-    .padding(0.4);
+  let x = d3.scaleBand().domain(groups).range([0, width]).padding([0.4]);
+  let y = d3.scaleLinear().domain([0, 60]).range([height, 0]);
 
-  const yScale = d3
-    .scaleLinear()
-    .domain([0, d3.max(yData)])
-    .range([height, 0]);
+  let xAxis = d3.axisBottom(x),
+    yAxis = d3.axisLeft(y);
 
-  let xAxis = d3.axisBottom(xScale),
-    yAxis = d3.axisLeft(yScale).ticks(5);
+  useEffect(() => {
+    d3.select(bottomAxis.current).call(xAxis);
+    d3.select(leftAxis.current).call(yAxis);
+  }, []);
+
+  let color = d3
+    .scaleOrdinal()
+    .domain(subgroups)
+    .range(["#e41a1c", "#377eb8", "#4daf4a"]);
+
+  let stackedData = d3.stack().keys(subgroups)(data);
 
   useEffect(() => {
     d3.select(bottomAxis.current).call(xAxis);
@@ -44,7 +66,7 @@ export const Chart12 = ({ height = 350, options, series }) => {
   }, []);
 
   function handleMouseOver(e, title, name, value) {
-    tooltip
+    d3.select(toolRef.current)
       .style("visibility", "visible")
       .style("left", e.pageX + 10 + "px")
       .style("top", e.pageY + 10 + "px");
@@ -53,20 +75,18 @@ export const Chart12 = ({ height = 350, options, series }) => {
   }
 
   function handleMouseMove(e, d) {
-    tooltip
+    d3.select(toolRef.current)
       .style("left", e.pageX + 10 + "px")
       .style("top", e.pageY + 10 + "px");
   }
 
   function handleMouseOut(e, d) {
-    tooltip.style("visibility", "hidden");
+    d3.select(toolRef.current).style("visibility", "hidden");
   }
 
   console.log(options);
   console.log(categories);
   console.log(series);
-  console.log(yData);
-  console.log(yScale(23));
   return (
     <>
       <svg
@@ -75,6 +95,7 @@ export const Chart12 = ({ height = 350, options, series }) => {
         }`}
         style={{
           color: "grey",
+          overflow: "visible",
         }}
       >
         <g transform={`translate(${margin.left}, ${margin.top})`}>
@@ -92,19 +113,30 @@ export const Chart12 = ({ height = 350, options, series }) => {
             }}
           />
           <g>
-            {categories.map((category, i) => {
+            {stackedData.map((d, i) => {
               return (
-                <g key={category}>
-                  {series.map((serie, j) => {
-                    let k = j + 1;
+                <g key={i} fill={color(d.key)}>
+                  {d.map((value, j) => {
                     return (
                       <rect
-                        key={j + 1}
-                        x={xScale(category)}
-                        y={yScale(serie.data[j])}
-                        width={xScale.bandwidth()}
-                        height={height - yScale(serie.data[j])}
-                        fill={options.colors[j]}
+                        key={value}
+                        x={x(value.data.group)}
+                        y={y(value[1])}
+                        width={x.bandwidth()}
+                        height={y(value[0]) - y(value[1])}
+                        style={{
+                          cursor: "pointer",
+                        }}
+                        onMouseOver={(e) => {
+                          handleMouseOver(
+                            e,
+                            value.data.group,
+                            subgroups[i],
+                            value[1]
+                          );
+                        }}
+                        onMouseMove={handleMouseMove}
+                        onMouseOut={handleMouseOut}
                       />
                     );
                   })}
