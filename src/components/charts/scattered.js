@@ -63,6 +63,7 @@ export const ScatteredChart = () => {
 
   let bottomAxis = d3.axisBottom(xScale);
   let leftAxis = d3.axisLeft(yScale);
+  
   useEffect(() => {
     d3.select(xRef.current).call(bottomAxis);
     d3.select(yRef.current).call(leftAxis);
@@ -76,6 +77,7 @@ export const ScatteredChart = () => {
       return yScale(d.value);
     })
     .curve(curveCardinal);
+
   return (
     <svg
       viewBox={`0 0 ${width + margin.left + margin.right} ${
